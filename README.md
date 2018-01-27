@@ -30,7 +30,7 @@ If the user puts in a quantity that is in stock, as pictured below,
 
 ![Sufficient Quantity](/bamazonPIcs/sufficientQuantity.png)
 
-then the stock amount will be updated and the total price will be shown. Then program will run again automatically, so that the user will hopefully buy more!
+then the stock amount will be updated and the total price will be shown. The program will run again automatically, so that the user will hopefully buy more!
 
 ![Purchase made](/bamazonPIcs/PurchaseMade.png)
 
