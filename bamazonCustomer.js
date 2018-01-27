@@ -1,6 +1,7 @@
 //dependencies
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+//new stock variable
 var newStock = 0;
 
 
@@ -33,7 +34,7 @@ connection.connect(function(err) {
             console.log(`${results[j].item_id}\t|${results[j].product_name}\t|${results[j].department_name}\t\t|${results[j].price}\t|${results[j].stock_quantity}`);
         }
         if(err) throw err;
-          
+         //inquirer prompts start 
         inquirer
           .prompt([
             {
@@ -55,7 +56,7 @@ connection.connect(function(err) {
                     total = answer.howMany*parseFloat(results[i].price);
                     newStock = parseInt(results[i].stock_quantity)-parseInt(answer.howMany);
                     // console.log("if statement", results[i].price); for debugging purposes
-                    console.log("new Stock", newStock);
+                    // console.log("new Stock", newStock); for debugging purposes
               if(answer.howMany > results[i].stock_quantity){
                 console.log(`Insufficient quantity! We only have ${results[i].stock_quantity}`);
                 showInventory();
@@ -68,11 +69,12 @@ connection.connect(function(err) {
                   ], function(error){
                       if(err) throw err;                      
                   });
-              }
-              }}
+              
+              
               console.log("Stock successfully updated.");                            
               console.log(`Your total is $${total}.`);
               showInventory();
+                }}}
             });
   });
 };
