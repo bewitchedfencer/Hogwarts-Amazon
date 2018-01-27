@@ -1,5 +1,7 @@
+//dependencies
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var newStock = 0;
 
 
 // create the connection information for the sql database
@@ -15,29 +17,29 @@ var connection = mysql.createConnection({
   database: "bamazon"
 });
 
+//making the connection connect
 connection.connect(function(err) {
     if (err) throw err;
-    //run the first function 
+    //run the first function to show the inventory
     showInventory();
   });
 
+
   function showInventory(){
-      connection.query("SELECT * FROM products", function(err, results){
-          if(err) throw err;
-        console.log("results", results);
-          inquirer
+  //all of the columns are selected and displayed
+    connection.query("SELECT * FROM products", function(err, results){
+          console.log(`Id\t|Product\t|Department\t|Price\t|Stock`);
+        for(var j = 0; j<results.length; j++){
+            console.log(`${results[j].item_id}\t|${results[j].product_name}\t|${results[j].department_name}\t\t|${results[j].price}\t|${results[j].stock_quantity}`);
+        }
+        if(err) throw err;
+          
+        inquirer
           .prompt([
             {
               name: "items",
-              type: "rawlist",
-              choices: function() {
-                var itemArray = [];
-                for (var i = 0; i < results.length; i++) {
-                  itemArray.push(JSON.stringify(results[i]));
-                }
-                return itemArray;
-              },
-              message: "What item would you like to purchase?"
+              type: "input",
+              message: "What item would you like to purchase? Choose the item id."
             },
             {
               name: "howMany",
@@ -47,29 +49,30 @@ connection.connect(function(err) {
           ])
           .then(function(answer) {
               var total = 0;
-              console.log("answer", answer.items.product_name);
             for (var i = 0; i < results.length; i++) {  
-                console.log("item", results[i].price);                
-                if(answer.items.item_id ===results[i].item_id){
+                // console.log("item", results[i].item_id); for debugging purposes
+                if(parseInt(answer.items)===parseInt(results[i].item_id)){
                     total = answer.howMany*parseFloat(results[i].price);
-                    console.log("if statement", results[i].price);
-                }             
+                    newStock = parseInt(results[i].stock_quantity)-parseInt(answer.howMany);
+                    // console.log("if statement", results[i].price); for debugging purposes
+                    console.log("new Stock", newStock);
               if(answer.howMany > results[i].stock_quantity){
                 console.log(`Insufficient quantity! We only have ${results[i].stock_quantity}`);
                 showInventory();
               }
               else{
-                  connection.query("UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?"
+                  connection.query("UPDATE products SET ? WHERE ?",
                   [
-                      answer.howMany,
-                      answer.items.item_id
+                      {stock_quantity:newStock},
+                      {item_id:results[i].item_id}
                   ], function(error){
                       if(err) throw err;                      
                   });
               }
-              }
+              }}
               console.log("Stock successfully updated.");                            
-              console.log(`Your total is $${total}`);
+              console.log(`Your total is $${total}.`);
+              showInventory();
             });
   });
 };
