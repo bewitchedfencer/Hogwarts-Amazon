@@ -24,15 +24,15 @@ A table will appear showing the inventory for the store. The user will be asked 
 
 The user will be asked for the quantity of the item they want. If an amount more than the quantity in stock is chosen, the user will be shown a message. Then the user will be asked what item they want to purchase again.
 
-![Insufficient Quantity](insufficientQuantity.png)
+![Insufficient Quantity](/bamazonPIcs/insufficientQuantity.png)
 
 If the user puts in a quantity that is in stock, as pictured below, 
 
-![Sufficient Quantity](sufficientQuantity.png)
+![Sufficient Quantity](/bamazonPIcs/sufficientQuantity.png)
 
 then the stock amount will be updated and the total price will be shown. Then program will run again automatically, so that the user will hopefully buy more!
 
-![Purchase made](PurchaseMade.png)
+![Purchase made](/bamazonPIcs/PurchaseMade.png)
 
 ## **Built With**
 ------------------------------------------
