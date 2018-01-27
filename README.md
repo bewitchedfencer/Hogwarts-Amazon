@@ -34,6 +34,9 @@ then the stock amount will be updated and the total price will be shown. Then pr
 
 ![Purchase made](/bamazonPIcs/PurchaseMade.png)
 
+### **bamazonManager.js
+
+
 ## **Built With**
 ------------------------------------------
 [Visual Studio Code](https://code.visualstudio.com/)
